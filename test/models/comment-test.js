@@ -8,7 +8,8 @@ const Comment = require('../../app/models/comment')
 const expect = chai.expect
 
 const mockComment = {
-  user: 'Lebron James'
+  user_id: 2,
+  post_id: 4
 }
 
 describe('Comment', () => {
@@ -30,7 +31,8 @@ describe('Comment', () => {
       .save(mockComment, {transacting: transaction})
       .then(comment => {
         expect(comment.get('id')).to.be.a('number')
-        expect(comment.get('user')).to.be.a('string')
+        expect(comment.get('user_id')).to.be.a('number')
+        expect(comment.get('post_id')).to.be.a('number')
       })
   })
 })
