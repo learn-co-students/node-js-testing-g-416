@@ -3,17 +3,15 @@
 const chai = require('chai')
 
 const bookshelf = require('../../app/db/bookshelf')
-const User = require('../../app/models/user')
+const Comment = require('../../app/models/comment')
 
 const expect = chai.expect
 
-const mockUser = {
-  email: 'email@email.com',
-  name: 'Name',
-  username: 'username'
+const mockComment = {
+  user: 'Lebron James'
 }
 
-describe('User', () => {
+describe('Comment', () => {
   let transaction;
 
   beforeEach(done => {
@@ -28,10 +26,11 @@ describe('User', () => {
   })
 
   it('saves a record to the database', () => {
-    return User.forge().
-      save(mockUser, { transacting: transaction }).
-      then(user => {
-        expect(user.get('id')).to.be.a('number')
+    return Comment.forge()
+      .save(mockComment, {transacting: transaction})
+      .then(comment => {
+        expect(comment.get('id')).to.be.a('number')
+        expect(comment.get('user')).to.be.a('string')
       })
   })
 })
