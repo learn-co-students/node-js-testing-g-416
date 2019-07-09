@@ -8,7 +8,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive -R mocha-multi --reporter-options spec=-,json=.results.json"
+    "test": "NODE_ENV=test mocha --recursive -R mocha-multi --reporter-options spec=-,json=.results.json",
+    "hello": "echo \"hello!\""
   },
   "repository": {
     "type": "git",
