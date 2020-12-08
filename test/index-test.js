@@ -4,15 +4,6 @@ const supertest = require('supertest')
 const app = require('../app')
 
 const expect = chai.expect
-
-describe('app', () => {
-  describe('up', () => {
-    it('is a function', ()=> {
-      expect(app.up).to.be.an.instanceof(Function)
-    })
-  })
-})
-
 let server
 
 before(function(done){
@@ -25,4 +16,34 @@ before(function(done){
 
 after(function(){
   server.close()
+})
+
+describe('app', () => {
+  describe('up', () => {
+    it('is a function', ()=> {
+      expect(app.up).to.be.an.instanceof(Function)
+    })
+  })
+
+  describe('/user', function(){
+    describe('POST', function(){
+      it('fails with an empty request body', function(done) {
+        supertest(server).
+          post('/user').
+          expect(400, done)
+      })
+
+      it('succeeds with vaild name, username, and email', function(done){
+        supertest(server)
+          .post('/user')
+          .send({
+            email: 'test@email.com',
+            name: 'testName',
+            username: 'testUsername'
+          })
+          .set('content-type', 'application/json')
+          .expect(200, done)
+      })
+    })
+  })
 })

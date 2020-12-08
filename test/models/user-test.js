@@ -2,7 +2,7 @@ const chai = require('chai')
 
 const bookshelf = require('../../app/db/bookshelf')
 const User = require('../../app/models/user')
-
+const supertest = require('supertest')
 const expect = chai.expect
 
 const mockUser = {
@@ -11,25 +11,29 @@ const mockUser = {
   username: 'username'
 }
 
-describe('User', function() {
+
+describe('User', () => {
   let transaction;
 
-  beforeEach(done => {
-    bookshelf.transaction(t => {
+   beforeEach(done => {
+    return bookshelf.transaction(t => {
       transaction = t
       done()
     })
   })
-  afterEach(function() {
-    return transaction.rollback()
+
+   afterEach(() => {
+    transaction.rollback()
   })
 
-  it('saves a record to the database', function(){
-    return User.forge()
-      .save(mockUser, { transacting: transaction})
-      .then(user => {
+   it('saves a record to the database', () => {
+    return User.forge().
+      save(mockUser, { transacting: transaction }).
+      then(user => {
         expect(user.get('id')).to.be.a('number')
       })
+      .catch((err) => {
+        console.log(err)
+      })
   })
-
 })
